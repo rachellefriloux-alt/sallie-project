@@ -116,7 +116,9 @@ export class StyleMapper {
 
   private addHedges(content: string): string {
     const hedges = ['perhaps', 'maybe', 'I think', 'it seems'];
-    const hedge = hedges[Math.floor(Math.random() * hedges.length)];
+    // Deterministic selection based on content hash
+    const hash = Array.from(content).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const hedge = hedges[hash % hedges.length];
     
     if (!content.toLowerCase().includes('perhaps') && 
         !content.toLowerCase().includes('maybe')) {
