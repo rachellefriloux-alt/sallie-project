@@ -174,7 +174,7 @@ export class EmotionalMemory extends MemoryEntity {
   /**
    * Check if this emotional memory involves a specific trigger
    */
-  hasTriger(triggerDescription: string): boolean {
+  hasTrigger(triggerDescription: string): boolean {
     return this.content.triggers.some(
       t => t.description.toLowerCase().includes(triggerDescription.toLowerCase())
     );
