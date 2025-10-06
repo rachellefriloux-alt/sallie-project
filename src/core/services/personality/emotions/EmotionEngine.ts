@@ -101,12 +101,17 @@ export class EmotionEngine {
       emotions.push(PrimaryEmotion.Joy);
     } else if (input.valence > 30 && input.arousal < 40) {
       emotions.push(ComplexEmotion.Contentment);
-    } else if (input.valence < -50 && input.arousal > 60) {
-      emotions.push(PrimaryEmotion.Anger);
-    } else if (input.valence < -50 && input.arousal < 40) {
-      emotions.push(PrimaryEmotion.Sadness);
-    } else if (input.valence < -30 && input.arousal > 70) {
+    } else if (input.valence < -50) {
+      // Negative emotions
+      if (input.arousal > 60) {
+        emotions.push(PrimaryEmotion.Anger);
+      } else {
+        emotions.push(PrimaryEmotion.Sadness);
+      }
+    } else if (input.valence < -20 && input.arousal > 60) {
+      // Moderate negative with high arousal
       emotions.push(PrimaryEmotion.Fear);
+      emotions.push(ComplexEmotion.Frustration);
     }
 
     // Add surprise if arousal is very high

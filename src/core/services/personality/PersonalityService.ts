@@ -86,12 +86,23 @@ export class PersonalityService {
     const stimulusType = type === 'message' ? StimulusType.UserMessage : StimulusType.SystemEvent;
     const stimulus = this.stimulusProcessor.processStimulus(content, stimulusType, context);
 
+    // Calculate valence and arousal from detected emotions or content analysis
+    let valence = 0;
+    let arousal = stimulus.emotionalSignificance * 80;
+    
+    if (stimulus.detectedEmotions.length > 0) {
+      // Use detected emotions to set valence
+      const primaryEmotion = stimulus.detectedEmotions[0];
+      valence = this.getEmotionValence(primaryEmotion.emotion as string) * primaryEmotion.confidence;
+      arousal = Math.max(arousal, 60);
+    }
+
     // Generate emotional response
     const emotionInput: EmotionGenerationInput = {
       stimulus: content,
       type: type,
-      valence: stimulus.detectedEmotions.length > 0 ? stimulus.detectedEmotions[0].confidence * 100 : 0,
-      arousal: stimulus.emotionalSignificance * 100,
+      valence,
+      arousal,
       significance: stimulus.emotionalSignificance,
       context,
     };
@@ -117,6 +128,23 @@ export class PersonalityService {
     this.emit('performance', { processingTime });
 
     return expression;
+  }
+
+  /**
+   * Get base valence for an emotion name
+   */
+  private getEmotionValence(emotion: string): number {
+    const valences: Record<string, number> = {
+      joy: 80,
+      sadness: -70,
+      anger: -60,
+      fear: -50,
+      gratitude: 70,
+      love: 90,
+      pride: 60,
+      frustration: -30,
+    };
+    return valences[emotion] || 0;
   }
 
   /**
