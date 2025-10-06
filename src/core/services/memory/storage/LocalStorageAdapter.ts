@@ -40,7 +40,7 @@ export interface LocalStorageConfig {
 export class LocalStorageAdapter implements IMemoryStore {
   private memories: Map<string, MemoryEntity> = new Map();
   private config: Required<LocalStorageConfig>;
-  private autoSaveTimer?: NodeJS.Timeout;
+  private autoSaveTimer?: ReturnType<typeof setInterval>;
   private isDirty: boolean = false;
   
   constructor(config: LocalStorageConfig = {}) {

@@ -61,7 +61,14 @@ export class EncryptedStorage implements IMemoryStore {
   private encrypt(data: string): string {
     // Placeholder: In production, use proper encryption
     // Example with crypto-js: CryptoJS.AES.encrypt(data, this.config.encryptionKey).toString()
-    return Buffer.from(data).toString('base64');
+    // Using base64 encoding as a placeholder (NOT SECURE)
+    // In a real implementation, use crypto-js, react-native-crypto, or similar
+    try {
+      return btoa(unescape(encodeURIComponent(data)));
+    } catch {
+      // Fallback for environments without btoa
+      return data;
+    }
   }
   
   /**
@@ -72,7 +79,13 @@ export class EncryptedStorage implements IMemoryStore {
   private decrypt(encryptedData: string): string {
     // Placeholder: In production, use proper decryption
     // Example with crypto-js: CryptoJS.AES.decrypt(encryptedData, this.config.encryptionKey).toString(CryptoJS.enc.Utf8)
-    return Buffer.from(encryptedData, 'base64').toString('utf-8');
+    // Using base64 decoding as a placeholder (NOT SECURE)
+    try {
+      return decodeURIComponent(escape(atob(encryptedData)));
+    } catch {
+      // Fallback for environments without atob
+      return encryptedData;
+    }
   }
   
   /**
