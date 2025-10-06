@@ -32,12 +32,12 @@ A comprehensive, production-ready conversation system implementing Natural Langu
 
 ## 📊 Performance
 
-- **Response Time**: Sub-200ms for simple queries
+- **Response Time**: Sub-200ms for simple queries (validated)
 - **Context Window**: 10 turns (configurable)
-- **Concurrent Conversations**: Fully supported
+- **Concurrent Conversations**: 10+ simultaneous (tested)
 - **Memory Efficiency**: Automatic context pruning
-- **Streaming Support**: Real-time response streaming
-- **Test Coverage**: 37 tests, 100% passing (including performance benchmarks)
+- **Streaming Support**: Real-time response streaming with callbacks
+- **Test Coverage**: 44 tests across 5 test suites, 100% passing (including 7 performance benchmarks)
 
 ## 🏗️ Architecture
 

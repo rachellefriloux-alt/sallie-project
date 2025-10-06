@@ -16,13 +16,13 @@ describe('Performance Benchmarks', () => {
   it('should process simple greeting in under 200ms', async () => {
     const conversationId = service.startConversation('user1', 'session1');
     
-    const start = Date.now();
+    const start = performance.now();
     const response = await service.processMessage('Hello!', {
       userId: 'user1',
       conversationId,
       sessionId: 'session1',
     });
-    const duration = Date.now() - start;
+    const duration = performance.now() - start;
     
     expect(response).toBeDefined();
     expect(duration).toBeLessThan(200);
@@ -31,13 +31,13 @@ describe('Performance Benchmarks', () => {
   it('should process information request in under 300ms', async () => {
     const conversationId = service.startConversation('user1', 'session1');
     
-    const start = Date.now();
+    const start = performance.now();
     const response = await service.processMessage('What can you tell me about AI?', {
       userId: 'user1',
       conversationId,
       sessionId: 'session1',
     });
-    const duration = Date.now() - start;
+    const duration = performance.now() - start;
     
     expect(response).toBeDefined();
     expect(duration).toBeLessThan(300);
@@ -50,7 +50,7 @@ describe('Performance Benchmarks', () => {
       sessionId: `session${i}`,
     }));
 
-    const start = Date.now();
+    const start = performance.now();
     
     const promises = conversations.map(conv =>
       service.processMessage('Hello!', {
@@ -61,7 +61,7 @@ describe('Performance Benchmarks', () => {
     );
 
     const responses = await Promise.all(promises);
-    const duration = Date.now() - start;
+    const duration = performance.now() - start;
     
     expect(responses.length).toBe(10);
     expect(responses.every(r => r.text)).toBe(true);
@@ -81,13 +81,13 @@ describe('Performance Benchmarks', () => {
     }
 
     // Measure response time after many turns
-    const start = Date.now();
+    const start = performance.now();
     const response = await service.processMessage('Hello again', {
       userId: 'user1',
       conversationId,
       sessionId: 'session1',
     });
-    const duration = Date.now() - start;
+    const duration = performance.now() - start;
     
     expect(response).toBeDefined();
     expect(duration).toBeLessThan(300); // Should stay performant
@@ -99,13 +99,13 @@ describe('Performance Benchmarks', () => {
     
     // Measure 50 responses
     for (let i = 0; i < 50; i++) {
-      const start = Date.now();
+      const start = performance.now();
       await service.processMessage(`Test message ${i}`, {
         userId: 'user1',
         conversationId,
         sessionId: 'session1',
       });
-      durations.push(Date.now() - start);
+      durations.push(performance.now() - start);
     }
 
     const average = durations.reduce((a, b) => a + b, 0) / durations.length;
