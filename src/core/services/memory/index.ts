@@ -91,3 +91,22 @@ export { MemoryIndex, EntityIndex, TagIndex, TypeIndex } from './indexing/Memory
 export type { IndexEntry } from './indexing/MemoryIndex';
 
 export { TemporalIndex } from './indexing/TemporalIndex';
+
+export { SemanticIndex } from './indexing/SemanticIndex';
+export type { VectorEmbedding, SimilarityResult } from './indexing/SemanticIndex';
+
+// Query Retrieval
+export { QueryRetrieval } from './retrieval/QueryRetrieval';
+export type { QueryParameters } from './retrieval/QueryRetrieval';
+
+// Pattern Mining
+export { PatternMiner, PatternType } from './consolidation/PatternMiner';
+export type { DetectedPattern, PatternMinerConfig } from './consolidation/PatternMiner';
+
+// Attention Mechanism
+export { AttentionMechanism } from './consolidation/AttentionMechanism';
+export type { AttentionConfig, AttentionComponents } from './consolidation/AttentionMechanism';
+
+// Sync Engine
+export { SyncEngine, SyncStatus } from './sync/SyncEngine';
+export type { SyncConfig, SyncResult, SyncConflict } from './sync/SyncEngine';

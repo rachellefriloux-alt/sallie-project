@@ -23,6 +23,10 @@ import { TemporalRetrieval } from './retrieval/TemporalRetrieval';
 import { EmotionalRetrieval } from './retrieval/EmotionalRetrieval';
 import { EntityIndex, TagIndex, TypeIndex } from './indexing/MemoryIndex';
 import { TemporalIndex } from './indexing/TemporalIndex';
+import { SemanticIndex } from './indexing/SemanticIndex';
+import { QueryRetrieval } from './retrieval/QueryRetrieval';
+import { PatternMiner } from './consolidation/PatternMiner';
+import { AttentionMechanism } from './consolidation/AttentionMechanism';
 
 /**
  * Memory Service Configuration
@@ -65,6 +69,11 @@ export class MemoryService {
   private tagIndex: TagIndex;
   private typeIndex: TypeIndex;
   private temporalIndex: TemporalIndex;
+  private semanticIndex: SemanticIndex;
+  
+  // Advanced features
+  private patternMiner: PatternMiner;
+  private attentionMechanism: AttentionMechanism;
   
   // Retrieval strategies
   private retrievalStrategies: Map<string, IRetrievalStrategy>;
@@ -93,6 +102,11 @@ export class MemoryService {
     this.tagIndex = new TagIndex();
     this.typeIndex = new TypeIndex();
     this.temporalIndex = new TemporalIndex();
+    this.semanticIndex = new SemanticIndex();
+    
+    // Initialize advanced features
+    this.patternMiner = new PatternMiner();
+    this.attentionMechanism = new AttentionMechanism();
     
     // Initialize retrieval strategies
     this.retrievalStrategies = new Map();
@@ -100,6 +114,7 @@ export class MemoryService {
     this.retrievalStrategies.set('association', new AssociationRetrieval());
     this.retrievalStrategies.set('temporal', new TemporalRetrieval());
     this.retrievalStrategies.set('emotional', new EmotionalRetrieval());
+    this.retrievalStrategies.set('query', new QueryRetrieval());
     
     // Configure service
     this.config = {
@@ -288,6 +303,69 @@ export class MemoryService {
   }
   
   /**
+   * Search for semantically similar memories
+   */
+  async searchSemantic(
+    queryText: string,
+    limit: number = 10,
+    minSimilarity: number = 0.5
+  ): Promise<MemoryEntity[]> {
+    const results = await this.semanticIndex.search(queryText, limit, minSimilarity);
+    const memories: MemoryEntity[] = [];
+    
+    for (const result of results) {
+      const memory = await this.store.retrieve(result.memoryId);
+      if (memory) memories.push(memory);
+    }
+    
+    return memories;
+  }
+  
+  /**
+   * Mine patterns from memories
+   */
+  async minePatterns(): Promise<any[]> {
+    const allMemories = await this.store.getAll();
+    return this.patternMiner.minePatterns(allMemories);
+  }
+  
+  /**
+   * Get detected patterns
+   */
+  getPatterns(type?: any): any[] {
+    return this.patternMiner.getPatterns(type);
+  }
+  
+  /**
+   * Apply attention mechanism to update importance
+   */
+  async applyAttentionWeighting(): Promise<void> {
+    const allMemories = await this.store.getAll();
+    
+    // Get association counts
+    const associationCounts = new Map<string, number>();
+    for (const memory of allMemories) {
+      const associations = this.associationGraph.getAllAssociations(memory.id);
+      associationCounts.set(memory.id, associations.length);
+    }
+    
+    // Calculate attention for each memory
+    const attentionScores = this.attentionMechanism.batchCalculateAttention(
+      allMemories,
+      { associationCounts }
+    );
+    
+    // Apply attention to importance
+    for (const memory of allMemories) {
+      const components = attentionScores.get(memory.id);
+      if (components) {
+        this.attentionMechanism.applyAttentionToImportance(memory, components, 0.3);
+        await this.store.update(memory);
+      }
+    }
+  }
+  
+  /**
    * Get service statistics
    */
   async getStats(): Promise<{
@@ -295,6 +373,8 @@ export class MemoryService {
     shortTermBuffer: any;
     associations: any;
     indexes: any;
+    patterns?: any;
+    embeddings?: any;
   }> {
     return {
       storage: await this.store.getStats(),
@@ -305,7 +385,9 @@ export class MemoryService {
         tags: this.tagIndex.getStats(),
         types: this.typeIndex.getStats(),
         temporal: this.temporalIndex.getStats()
-      }
+      },
+      patterns: this.patternMiner.getStats(),
+      embeddings: this.semanticIndex.getEmbeddingStats()
     };
   }
   
@@ -395,6 +477,7 @@ export class MemoryService {
     this.tagIndex.add(memory);
     this.typeIndex.add(memory);
     this.temporalIndex.add(memory);
+    this.semanticIndex.add(memory);
   }
   
   /**
@@ -405,6 +488,7 @@ export class MemoryService {
     this.tagIndex.remove(memoryId);
     this.typeIndex.remove(memoryId);
     this.temporalIndex.remove(memoryId);
+    this.semanticIndex.remove(memoryId);
   }
   
   /**
@@ -415,6 +499,7 @@ export class MemoryService {
     this.tagIndex.clear();
     this.typeIndex.clear();
     this.temporalIndex.clear();
+    this.semanticIndex.clear();
   }
   
   /**

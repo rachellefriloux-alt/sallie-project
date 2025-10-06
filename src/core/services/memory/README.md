@@ -450,15 +450,109 @@ await memoryService.getStats().storage.optimize();
 7. **Test retrieval strategies** to ensure relevant results
 8. **Configure decay rates** based on use case
 
+## Advanced Features
+
+### Vector Embeddings and Semantic Search
+
+The service now includes semantic indexing with vector embeddings:
+
+```typescript
+// Search for semantically similar memories
+const similar = await memoryService.searchSemantic(
+  'project planning discussion',
+  10,
+  0.5
+);
+
+// Set custom embedding function (e.g., OpenAI, Sentence-BERT)
+memoryService.semanticIndex.setEmbeddingFunction(async (text) => {
+  // Your embedding logic here
+  return embeddings;
+});
+```
+
+### Pattern Mining
+
+Automatic detection of recurring patterns in memories:
+
+```typescript
+// Mine patterns from all memories
+const patterns = await memoryService.minePatterns();
+
+// Get specific pattern types
+const topicClusters = memoryService.getPatterns(PatternType.TOPIC_CLUSTER);
+const emotionalCycles = memoryService.getPatterns(PatternType.EMOTIONAL_CYCLE);
+
+// Pattern types include:
+// - Entity co-occurrence
+// - Topic clusters
+// - Temporal sequences
+// - Emotional cycles
+// - Behavioral patterns
+```
+
+### Attention Mechanism
+
+Advanced importance weighting using attention-based algorithms:
+
+```typescript
+// Apply attention mechanism to update memory importance
+await memoryService.applyAttentionWeighting();
+
+// Attention considers:
+// - Recency
+// - Frequency of access
+// - Network connectivity
+// - Emotional intensity
+// - User interactions
+// - Self-attention across memories
+```
+
+### Cross-Platform Synchronization
+
+Built-in sync engine for multi-device support:
+
+```typescript
+import { SyncEngine } from '@core/services/memory';
+
+const syncEngine = new SyncEngine(localStore, {
+  autoSync: true,
+  syncInterval: 300000, // 5 minutes
+  conflictResolution: 'newest',
+  enableDeltaSync: true
+});
+
+// Sync with remote store
+const result = await syncEngine.sync(remoteStore);
+
+console.log(`Pushed: ${result.pushed}, Pulled: ${result.pulled}`);
+```
+
+### Query Retrieval
+
+Direct query-based retrieval with SQL-like filtering:
+
+```typescript
+const memories = await memoryService.retrieveMemories('query', 
+  QueryRetrieval.buildQueryContext({
+    type: MemoryType.EPISODIC,
+    tags: ['work', 'project'],
+    dateRange: {
+      start: new Date('2025-01-01'),
+      end: new Date('2025-01-31')
+    },
+    minImportance: 0.5,
+    textSearch: 'deadline'
+  }),
+  { limit: 20 }
+);
+```
+
 ## Future Enhancements
 
-- Vector embeddings for semantic similarity
-- Graph neural networks for association prediction
-- Attention mechanisms for importance weighting
-- Pattern mining for recurring themes
-- Cross-platform synchronization
-- Distributed storage backends
-- Real-time collaboration features
+- Graph neural networks for advanced association prediction
+- Distributed storage backends for scalability
+- Real-time collaboration features with operational transforms
 
 ## License
 
