@@ -387,7 +387,7 @@ console.log(memory.version.previousVersionId); // 'memory-id_v1'
 
 ## Testing
 
-The memory service includes comprehensive unit and integration tests:
+The memory service includes comprehensive unit, integration, performance, and memory leak tests:
 
 ```bash
 # Run all tests
@@ -398,16 +398,45 @@ npm test -- --coverage
 
 # Run specific test file
 npm test MemoryEntity.test.ts
+npm test MemoryService.performance.test.ts
+npm test MemoryService.memoryleak.test.ts
 ```
 
 Test coverage includes:
-- Memory entity models (28 tests)
-- Storage operations
-- Retrieval strategies
+
+### Unit & Integration Tests (28 tests)
+- Memory entity models (all 4 types)
+- Storage operations (CRUD, query, export/import)
+- Retrieval strategies (all 6 strategies)
 - Consolidation engine
 - Association formation
 - Index operations
 - Full integration scenarios
+
+### Performance Tests (15 tests)
+- Large memory set operations (1000+ memories)
+- Retrieval performance on large datasets
+- Contextual search performance
+- Association building efficiency
+- Index performance with many entities
+- Pattern mining on large datasets
+- Semantic search performance
+- Attention mechanism performance
+- Export/import performance with 500+ memories
+- Concurrent operation handling
+
+### Memory Leak Tests (11 tests)
+- Resource cleanup and disposal
+- Memory growth control
+- Index cleanup on deletion
+- Association cleanup
+- Short-term buffer management
+- Event listener cleanup
+- Large object cleanup
+- Circular reference prevention
+- Pattern miner cleanup
+
+**Total: 54 tests, 100% passing**
 
 ## Performance Considerations
 
