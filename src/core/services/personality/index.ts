@@ -11,6 +11,8 @@ export type { PersonalityConfig, PersonalityState } from './PersonalityService';
 export * from './models/TraitVector';
 export * from './models/EmotionVector';
 export * from './models/EmotionalState';
+export * from './models/TraitFacet';
+export * from './models/MoodState';
 
 // Trait management
 export { TraitManager } from './traits/TraitManager';
@@ -29,3 +31,6 @@ export { MoodTracker } from './emotions/MoodTracker';
 
 // Expression
 export { ExpressionMapper } from './expression/ExpressionMapper';
+export { LinguisticExpression } from './expression/LinguisticExpression';
+export { VisualExpression } from './expression/VisualExpression';
+export { BehavioralExpression } from './expression/BehavioralExpression';

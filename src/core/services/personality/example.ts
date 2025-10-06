@@ -186,9 +186,5 @@ async function demonstratePersonalityEngine() {
   console.log('  ✓ Persisted and restored state');
 }
 
-// Run demo if executed directly
-if (require.main === module) {
-  demonstratePersonalityEngine().catch(console.error);
-}
-
+// Export for use
 export { demonstratePersonalityEngine };

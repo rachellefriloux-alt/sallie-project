@@ -284,6 +284,12 @@ npm test -- PersonalityService
 
 ```
 PersonalityService (Main Orchestrator)
+├── Models
+│   ├── TraitVector (OCEAN personality model)
+│   ├── TraitFacet (30 sub-facets)
+│   ├── EmotionVector (16 emotions)
+│   ├── EmotionalState (Complete emotional state)
+│   └── MoodState (Long-term mood patterns)
 ├── Trait Systems
 │   ├── TraitManager (OCEAN model management)
 │   ├── TraitEvolution (Experience-based learning)
@@ -298,7 +304,10 @@ PersonalityService (Main Orchestrator)
 │   ├── EmotionalMemory (Pattern tracking)
 │   └── MoodTracker (Long-term trends)
 └── Expression Systems
-    └── ExpressionMapper (Multi-modal coordination)
+    ├── ExpressionMapper (Multi-modal coordination)
+    ├── LinguisticExpression (Verbal templates & patterns)
+    ├── VisualExpression (Facial, body, animation mapping)
+    └── BehavioralExpression (Tendency models)
 ```
 
 ## Type Safety

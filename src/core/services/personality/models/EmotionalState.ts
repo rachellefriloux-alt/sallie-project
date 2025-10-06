@@ -4,6 +4,7 @@
  */
 
 import { EmotionVector, PrimaryEmotion, ComplexEmotion, createDefaultEmotionVector } from './EmotionVector';
+import { MoodState, createDefaultMoodState } from './MoodState';
 
 export interface EmotionalState {
   currentEmotions: EmotionVector;
@@ -11,24 +12,6 @@ export interface EmotionalState {
   recentStimuli: StimulusRecord[];
   activeTransitions: EmotionTransition[];
   suppressedEmotions: Array<PrimaryEmotion | ComplexEmotion>;
-}
-
-export interface MoodState {
-  valence: number; // -100 to +100
-  arousal: number; // 0-100
-  dominance: number; // 0-100 (feeling of control)
-  duration: number; // milliseconds in current mood
-  stability: number; // 0-1
-  label: string;
-  onsetTime: Date;
-  influences: MoodInfluence[];
-}
-
-export interface MoodInfluence {
-  type: 'emotion' | 'event' | 'memory' | 'context';
-  source: string;
-  weight: number; // 0-1
-  timestamp: Date;
 }
 
 export interface StimulusRecord {
@@ -74,19 +57,6 @@ export interface EmotionalMemoryEntry {
   recalled: number; // Times this memory has been recalled
 }
 
-export function createDefaultMoodState(): MoodState {
-  return {
-    valence: 20,
-    arousal: 30,
-    dominance: 60,
-    duration: 0,
-    stability: 0.7,
-    label: 'content',
-    onsetTime: new Date(),
-    influences: [],
-  };
-}
-
 export function createDefaultEmotionalState(): EmotionalState {
   return {
     currentEmotions: createDefaultEmotionVector(),
@@ -95,16 +65,4 @@ export function createDefaultEmotionalState(): EmotionalState {
     activeTransitions: [],
     suppressedEmotions: [],
   };
-}
-
-export function calculateMoodLabel(valence: number, arousal: number): string {
-  if (valence > 50 && arousal > 50) return 'excited';
-  if (valence > 50 && arousal < 30) return 'content';
-  if (valence > 50) return 'happy';
-  if (valence < -50 && arousal > 50) return 'angry';
-  if (valence < -50 && arousal < 30) return 'depressed';
-  if (valence < -50) return 'sad';
-  if (arousal > 70) return 'anxious';
-  if (arousal < 20) return 'calm';
-  return 'neutral';
 }

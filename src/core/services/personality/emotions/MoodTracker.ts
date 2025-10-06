@@ -3,7 +3,7 @@
  * Tracks long-term emotional trends and mood patterns
  */
 
-import { MoodState, MoodInfluence, calculateMoodLabel } from '../models/EmotionalState';
+import { MoodState, MoodInfluence, calculateMoodLabel } from '../models/MoodState';
 import { EmotionVector } from '../models/EmotionVector';
 
 export class MoodTracker {
@@ -72,12 +72,13 @@ export class MoodTracker {
     }
   }
 
-  addInfluence(type: 'emotion' | 'event' | 'memory' | 'context', source: string, weight: number): void {
+  addInfluence(type: 'emotion' | 'event' | 'memory' | 'context' | 'social' | 'physical', source: string, weight: number): void {
     this.currentMood.influences.push({
       type,
       source,
       weight,
       timestamp: new Date(),
+      duration: 0,
     });
 
     // Keep only recent influences
