@@ -45,7 +45,7 @@ export class StyleMapper {
   private applyAgreeablenessStyle(content: string, level: number): string {
     if (level > 0.7) {
       // High agreeableness: more polite, empathetic language
-      if (!content.toLowerCase().includes('please') && Math.random() > 0.5) {
+      if (!content.toLowerCase().includes('please')) {
         content = content.replace(/^/, 'Please, ');
       }
     }
