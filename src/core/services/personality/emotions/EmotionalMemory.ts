@@ -32,7 +32,7 @@ export class EmotionalMemory {
     }
   }
 
-  recall(context: string, limit: number = 5): EmotionalMemoryEntry[] {
+  recall(context: string, limit = 5): EmotionalMemoryEntry[] {
     const matches = this.memories
       .filter((m) => m.context === context)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())

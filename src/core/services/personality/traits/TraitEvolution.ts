@@ -277,7 +277,7 @@ export class TraitEvolution {
   /**
    * Get recent experiences
    */
-  getRecentExperiences(limit: number = 10): ExperienceInput[] {
+  getRecentExperiences(limit = 10): ExperienceInput[] {
     return this.experienceBuffer.slice(-limit);
   }
 

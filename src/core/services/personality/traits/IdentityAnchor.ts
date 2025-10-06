@@ -33,7 +33,7 @@ export class IdentityAnchorSystem {
   private violationHistory: AnchorViolation[];
   private readonly MAX_HISTORY = 50;
 
-  constructor(initialTraits: TraitVector, anchorStrength: number = 0.7) {
+  constructor(initialTraits: TraitVector, anchorStrength = 0.7) {
     this.anchors = this.initializeAnchors(initialTraits, anchorStrength);
     this.violationHistory = [];
   }
@@ -244,7 +244,7 @@ export class IdentityAnchorSystem {
   /**
    * Check if identity is stable (few recent violations)
    */
-  isIdentityStable(recentPeriod: number = 10): boolean {
+  isIdentityStable(recentPeriod = 10): boolean {
     const recentViolations = this.violationHistory.slice(-recentPeriod);
     const severeViolations = recentViolations.filter(
       (v) => v.severity === 'severe'
