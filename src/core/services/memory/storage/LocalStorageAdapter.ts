@@ -98,6 +98,33 @@ export class LocalStorageAdapter implements IMemoryStore {
    * Deserialize a memory from JSON
    */
   private deserializeMemory(data: any): MemoryEntity {
+    // Convert date strings back to Date objects
+    if (data.metadata) {
+      if (data.metadata.createdAt) {
+        data.metadata.createdAt = new Date(data.metadata.createdAt);
+      }
+      if (data.metadata.lastAccessedAt) {
+        data.metadata.lastAccessedAt = new Date(data.metadata.lastAccessedAt);
+      }
+      if (data.metadata.lastModifiedAt) {
+        data.metadata.lastModifiedAt = new Date(data.metadata.lastModifiedAt);
+      }
+    }
+    
+    if (data.version && data.version.timestamp) {
+      data.version.timestamp = new Date(data.version.timestamp);
+    }
+    
+    // Convert type-specific dates
+    if (data.type === MemoryType.EPISODIC && data.content.temporal) {
+      if (data.content.temporal.startTime) {
+        data.content.temporal.startTime = new Date(data.content.temporal.startTime);
+      }
+      if (data.content.temporal.endTime) {
+        data.content.temporal.endTime = new Date(data.content.temporal.endTime);
+      }
+    }
+    
     switch (data.type) {
       case MemoryType.EPISODIC:
         return Object.assign(
