@@ -189,7 +189,7 @@ export class ReferenceResolver {
       case 'female':
         return entity.type === EntityType.PERSON;
       case 'neutral':
-        return entity.type !== EntityType.PERSON || entity.type === EntityType.OBJECT;
+        return entity.type === EntityType.OBJECT || (entity.type !== EntityType.PERSON);
       case 'plural':
         return true; // Can refer to any entity
       default:
