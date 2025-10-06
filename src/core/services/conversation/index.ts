@@ -4,7 +4,7 @@
 
 // Main Service
 export { ConversationService } from './ConversationService';
-export type { ProcessMessageOptions, ConversationResponse } from './ConversationService';
+export type { ProcessMessageOptions, ConversationResponse, StreamingOptions } from './ConversationService';
 
 // Models
 export * from './models/Intent';
@@ -41,3 +41,5 @@ export { ClarificationEngine } from './dialogue/ClarificationEngine';
 export { RepairStrategy } from './dialogue/RepairStrategy';
 export { TopicSuggester } from './dialogue/TopicSuggester';
 export { ConversationMemory } from './dialogue/ConversationMemory';
+export { MetaConversationHandler } from './dialogue/MetaConversationHandler';
+export type { MetaConversationTrigger } from './dialogue/MetaConversationHandler';

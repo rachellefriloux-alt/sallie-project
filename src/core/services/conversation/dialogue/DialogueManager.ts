@@ -11,6 +11,7 @@ import { ClarificationEngine } from './ClarificationEngine';
 import { RepairStrategy } from './RepairStrategy';
 import { TopicSuggester } from './TopicSuggester';
 import { ConversationMemory } from './ConversationMemory';
+import { MetaConversationHandler } from './MetaConversationHandler';
 
 export class DialogueManager {
   private states: Map<string, DialogueState>;
@@ -20,6 +21,7 @@ export class DialogueManager {
   private repairStrategy: RepairStrategy;
   private topicSuggester: TopicSuggester;
   private conversationMemory: ConversationMemory;
+  private metaConversationHandler: MetaConversationHandler;
 
   constructor() {
     this.states = new Map();
@@ -29,6 +31,7 @@ export class DialogueManager {
     this.repairStrategy = new RepairStrategy();
     this.topicSuggester = new TopicSuggester();
     this.conversationMemory = new ConversationMemory();
+    this.metaConversationHandler = new MetaConversationHandler();
   }
 
   /**
@@ -136,6 +139,31 @@ export class DialogueManager {
    */
   public getConversationMemory(): ConversationMemory {
     return this.conversationMemory;
+  }
+
+  /**
+   * Check for meta-conversation and handle
+   */
+  public handleMetaConversation(
+    conversationId: string,
+    text: string,
+    context: ConversationContext
+  ): string | null {
+    const state = this.getState(conversationId);
+    const metaTrigger = this.metaConversationHandler.detectMetaTopic(text, context);
+
+    if (metaTrigger && metaTrigger.confidence > 0.6) {
+      return this.metaConversationHandler.generateMetaResponse(metaTrigger, state, context);
+    }
+
+    return null;
+  }
+
+  /**
+   * Get meta-conversation handler
+   */
+  public getMetaConversationHandler(): MetaConversationHandler {
+    return this.metaConversationHandler;
   }
 
   /**

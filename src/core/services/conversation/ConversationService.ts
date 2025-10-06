@@ -35,6 +35,12 @@ export interface ConversationResponse {
   };
 }
 
+export interface StreamingOptions extends ProcessMessageOptions {
+  onChunk?: (chunk: string) => void;
+  onComplete?: (response: ConversationResponse) => void;
+  chunkSize?: number;
+}
+
 export class ConversationService {
   // NLU Components
   private intentRecognizer: IntentRecognizer;
@@ -109,7 +115,18 @@ export class ConversationService {
       // Step 4: Update dialogue state
       this.dialogueManager.updateState(options.conversationId, context);
 
-      // Step 5: Check for clarification needs
+      // Step 5: Check for meta-conversation
+      const metaResponse = this.dialogueManager.handleMetaConversation(
+        options.conversationId,
+        message,
+        context
+      );
+
+      if (metaResponse) {
+        return this.createResponse(metaResponse, 0.95, false, startTime, nluResults);
+      }
+
+      // Step 6: Check for clarification needs
       const clarificationResponse = this.dialogueManager.checkClarificationNeed(
         options.conversationId,
         context
@@ -119,7 +136,7 @@ export class ConversationService {
         return this.createResponse(clarificationResponse, 0.9, true, startTime, nluResults);
       }
 
-      // Step 6: Check for errors and recovery
+      // Step 7: Check for errors and recovery
       const errorResponse = this.dialogueManager.handleErrors(
         options.conversationId,
         message,
@@ -130,7 +147,7 @@ export class ConversationService {
         return this.createResponse(errorResponse, 0.85, false, startTime, nluResults);
       }
 
-      // Step 7: Generate response
+      // Step 8: Generate response
       const generatedResponse = await this.responseGenerator.generateResponse({
         intent: nluResults.intent.primaryIntent,
         entities: nluResults.entities,
@@ -139,7 +156,7 @@ export class ConversationService {
         includeMemories: options.includeMemories,
       });
 
-      // Step 8: Add assistant turn to context
+      // Step 9: Add assistant turn to context
       const assistantTurn: ConversationTurn = {
         id: `turn_${Date.now()}`,
         speaker: 'assistant',
@@ -149,7 +166,7 @@ export class ConversationService {
       };
       this.contextManager.addTurn(options.conversationId, assistantTurn);
 
-      // Step 9: Check for topic suggestions
+      // Step 10: Check for topic suggestions
       const topicSuggestion = this.dialogueManager.suggestTopic(options.conversationId, context);
 
       return this.createResponse(
@@ -276,6 +293,36 @@ export class ConversationService {
         responseTime: Date.now() - startTime,
       },
     };
+  }
+
+  /**
+   * Process message with streaming response
+   */
+  public async processMessageStreaming(
+    message: string,
+    options: StreamingOptions
+  ): Promise<ConversationResponse> {
+    const response = await this.processMessage(message, options);
+
+    if (options.onChunk) {
+      // Stream the response in chunks
+      const chunkSize = options.chunkSize || 10;
+      const words = response.text.split(' ');
+      
+      for (let i = 0; i < words.length; i += chunkSize) {
+        const chunk = words.slice(i, i + chunkSize).join(' ');
+        options.onChunk(chunk);
+        
+        // Simulate natural typing delay
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+    }
+
+    if (options.onComplete) {
+      options.onComplete(response);
+    }
+
+    return response;
   }
 
   /**

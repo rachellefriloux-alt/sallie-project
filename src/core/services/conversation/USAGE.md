@@ -182,6 +182,43 @@ if (response.suggestedTopics && response.suggestedTopics.length > 0) {
 }
 ```
 
+### Streaming Responses
+
+Stream responses in real-time for better UX:
+
+```typescript
+await conversationService.processMessageStreaming('Tell me a story', {
+  userId: 'user1',
+  conversationId,
+  sessionId: 'session1',
+  chunkSize: 5, // Words per chunk
+  onChunk: (chunk) => {
+    // Display chunk as it arrives
+    console.log('Chunk:', chunk);
+    // Update UI, emit to websocket, etc.
+  },
+  onComplete: (response) => {
+    console.log('Complete!', response.confidence);
+  },
+});
+```
+
+### Meta-Conversation
+
+The system can handle conversations about the conversation itself:
+
+```typescript
+// User asks about the conversation
+const response = await conversationService.processMessage(
+  'How is our conversation going?',
+  options
+);
+
+// System provides self-aware commentary
+console.log(response.text);
+// "I think we're having a great conversation! The discussion is flowing naturally..."
+```
+
 ### Conversation Context
 
 Access conversation context:
@@ -304,6 +341,29 @@ describe('My Conversation Tests', () => {
 });
 ```
 
+## Integration with Other Services
+
+For detailed integration examples with Memory, Personality, Values, and Event services, see [INTEGRATION.md](./INTEGRATION.md).
+
+## Performance
+
+The system is optimized for production use:
+
+```typescript
+// Run performance benchmarks
+// See __tests__/performance.benchmark.ts
+
+// Response times:
+// - Simple queries: < 200ms
+// - Complex queries: < 300ms
+// - Concurrent conversations: Efficient
+// - Long conversation history: Maintained performance
+```
+
 ## Examples
 
-See the `__tests__` directory for comprehensive usage examples.
+See the `__tests__` directory for comprehensive usage examples including:
+- Unit tests for all components
+- Integration tests for conversation flows
+- Performance benchmarks
+- Meta-conversation examples

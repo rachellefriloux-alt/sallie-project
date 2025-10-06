@@ -28,6 +28,7 @@ A comprehensive, production-ready conversation system implementing Natural Langu
 - ✅ **Repair Strategies**: Error detection, recovery techniques, conversation reestablishment
 - ✅ **Topic Suggestion**: Opportunity detection, relevance-based selection, natural presentation
 - ✅ **Conversation Memory**: History tracking, repetition avoidance, continuity enforcement
+- ✅ **Meta-Conversation**: Self-aware commentary, quality assessment, improvement suggestions
 
 ## 📊 Performance
 
@@ -35,7 +36,8 @@ A comprehensive, production-ready conversation system implementing Natural Langu
 - **Context Window**: 10 turns (configurable)
 - **Concurrent Conversations**: Fully supported
 - **Memory Efficiency**: Automatic context pruning
-- **Test Coverage**: 24 tests, 100% passing
+- **Streaming Support**: Real-time response streaming
+- **Test Coverage**: 37 tests, 100% passing (including performance benchmarks)
 
 ## 🏗️ Architecture
 
@@ -70,11 +72,18 @@ src/core/services/conversation/
 │   ├── ClarificationEngine.ts
 │   ├── RepairStrategy.ts
 │   ├── TopicSuggester.ts
-│   └── ConversationMemory.ts
+│   ├── ConversationMemory.ts
+│   └── MetaConversationHandler.ts
 ├── __tests__/                 # Test suite
+│   ├── IntentRecognizer.test.ts
+│   ├── SentimentAnalyzer.test.ts
+│   ├── ConversationService.test.ts
+│   ├── MetaConversationHandler.test.ts
+│   └── performance.benchmark.ts
 ├── ConversationService.ts     # Main service
 ├── index.ts                   # Exports
 ├── USAGE.md                   # Usage guide
+├── INTEGRATION.md             # Integration examples
 └── README.md                  # This file
 ```
 
@@ -181,26 +190,31 @@ const response = await service.processMessage(text, {
 
 ## 📈 Metrics
 
-- **Code**: ~5,000 lines of production TypeScript
-- **Components**: 29 files across 4 layers
+- **Code**: ~6,000 lines of production TypeScript
+- **Components**: 34 files across 4 layers
 - **Templates**: 100+ response templates
 - **Intent Patterns**: 50+ recognition patterns
 - **Sentiment Lexicon**: 40+ emotional markers
-- **Test Coverage**: Core components fully tested
+- **Meta-Conversation Patterns**: 20+ patterns
+- **Test Coverage**: 37 tests including performance benchmarks
+- **Documentation**: 3 comprehensive guides (USAGE, INTEGRATION, README)
 
 ## 🔒 Production Features
 
-- State persistence and recovery
-- Concurrent conversation support
-- Automatic context cleanup
-- Health status monitoring
-- Graceful error handling
-- Response streaming ready
+- ✅ State persistence and recovery
+- ✅ Concurrent conversation support
+- ✅ Automatic context cleanup
+- ✅ Health status monitoring
+- ✅ Graceful error handling
+- ✅ Response streaming (fully implemented)
+- ✅ Performance benchmarks
+- ✅ Meta-conversation handling
 
 ## 📚 Documentation
 
-- [USAGE.md](./USAGE.md) - Comprehensive usage guide
-- [__tests__/](./tests/) - Example usage in tests
+- [USAGE.md](./USAGE.md) - Comprehensive usage guide with examples
+- [INTEGRATION.md](./INTEGRATION.md) - Integration examples for Memory, Personality, Values, and Event services
+- [__tests__/](./tests/) - Example usage in tests and performance benchmarks
 - Inline JSDoc comments throughout codebase
 
 ## 🤝 Integration
