@@ -320,7 +320,7 @@ export class EntityExtractor {
     const attributes: EntityAttribute[] = [];
     
     switch (type) {
-      case EntityType.TIME:
+      case EntityType.TIME: {
         const timeMatch = text.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
         if (timeMatch) {
           attributes.push({
@@ -342,8 +342,8 @@ export class EntityExtractor {
           }
         }
         break;
-        
-      case EntityType.DATE:
+      }
+      case EntityType.DATE: {
         if (/today/i.test(text)) {
           attributes.push({
             name: 'relative',
@@ -358,6 +358,7 @@ export class EntityExtractor {
           });
         }
         break;
+      }
     }
     
     return attributes;

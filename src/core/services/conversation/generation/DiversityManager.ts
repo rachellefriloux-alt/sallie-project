@@ -29,7 +29,7 @@ export class DiversityManager {
   /**
    * Generate variations of response
    */
-  public generateVariations(response: string, count: number = 3): string[] {
+  public generateVariations(response: string, count = 3): string[] {
     const variations: string[] = [response];
 
     // Synonym substitution
@@ -73,7 +73,7 @@ export class DiversityManager {
   /**
    * Get overused phrases
    */
-  public getOverusedPhrases(threshold: number = 3): string[] {
+  public getOverusedPhrases(threshold = 3): string[] {
     return Array.from(this.recentPhrases.entries())
       .filter(([_, count]) => count >= threshold)
       .map(([phrase, _]) => phrase);

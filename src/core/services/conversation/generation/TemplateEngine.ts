@@ -31,9 +31,9 @@ export class TemplateEngine {
    */
   public selectTemplate(
     intentType: IntentType,
-    emotion: string = 'neutral',
-    formality: string = 'casual',
-    avoidRecent: boolean = true
+    emotion = 'neutral',
+    formality = 'casual',
+    avoidRecent = true
   ): ResponseTemplate | null {
     const candidates = this.templates.get(intentType) || [];
     if (candidates.length === 0) return null;

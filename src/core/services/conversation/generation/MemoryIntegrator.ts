@@ -25,7 +25,7 @@ export class MemoryIntegrator {
   public retrieveRelevant(
     context: ConversationContext,
     entities: Entity[],
-    maxMemories: number = 3
+    maxMemories = 3
   ): Memory[] {
     const scored = this.memories.map(memory => ({
       memory,

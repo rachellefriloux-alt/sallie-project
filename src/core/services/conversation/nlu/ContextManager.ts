@@ -138,7 +138,7 @@ export class ContextManager {
   /**
    * Get relevant context for response generation
    */
-  public getRelevantContext(conversationId: string, maxElements: number = 5): ContextElement[] {
+  public getRelevantContext(conversationId: string, maxElements = 5): ContextElement[] {
     const context = this.contexts.get(conversationId);
     if (!context) return [];
 
@@ -311,7 +311,7 @@ export class ContextManager {
   /**
    * Clear old contexts
    */
-  public cleanup(maxAge: number = 3600000): void {
+  public cleanup(maxAge = 3600000): void {
     const now = Date.now();
     
     for (const [id, context] of this.contexts.entries()) {

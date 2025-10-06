@@ -97,7 +97,7 @@ export class ResponseGenerator {
   public planMultiTurnResponse(
     content: string,
     context: ConversationContext,
-    maxTurns: number = 3
+    maxTurns = 3
   ): string[] {
     const sentences = content.split(/[.!?]+/).filter(s => s.trim());
     

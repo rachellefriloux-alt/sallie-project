@@ -130,7 +130,7 @@ export class DialogueManager {
   /**
    * Calculate response timing
    */
-  public calculateResponseTiming(messageLength: number, complexity: number = 0.5): number {
+  public calculateResponseTiming(messageLength: number, complexity = 0.5): number {
     return this.turnTakingManager.calculateResponseDelay(messageLength, complexity);
   }
 
@@ -207,7 +207,7 @@ export class DialogueManager {
   /**
    * Cleanup old states
    */
-  public cleanup(maxAge: number = 3600000): void {
+  public cleanup(maxAge = 3600000): void {
     const now = Date.now();
     
     for (const [id, state] of this.states.entries()) {

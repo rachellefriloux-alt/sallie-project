@@ -167,7 +167,7 @@ export class SpeechActClassifier {
     confidence: number,
     indicators: SpeechActIndicator[],
     isExplicit: boolean,
-    isIndirect: boolean = false
+    isIndirect = false
   ): SpeechAct {
     return {
       type,

@@ -22,7 +22,7 @@ export class ConversationMemory {
     conversationId: string,
     content: string,
     type: DiscussedContent['type'],
-    withinTurns: number = 10
+    withinTurns = 10
   ): boolean {
     const history = this.discussedContent.get(conversationId) || [];
     const recentHistory = history.slice(-withinTurns);
@@ -108,7 +108,7 @@ export class ConversationMemory {
   /**
    * Clear old conversations
    */
-  public cleanup(maxAge: number = 3600000): void {
+  public cleanup(maxAge = 3600000): void {
     const now = Date.now();
     
     for (const [id, history] of this.discussedContent.entries()) {
