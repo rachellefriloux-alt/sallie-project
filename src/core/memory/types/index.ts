@@ -106,6 +106,11 @@ export interface MemoryMetadata {
 export interface Entity {
   type: string;
   value: string;
+  /**
+   * Confidence score for the entity extraction.
+   * Range: 0 (lowest confidence) to 1 (highest confidence).
+   * Indicates the system's certainty that the entity is correctly identified.
+   */
   confidence: number;
 }
 
