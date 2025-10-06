@@ -14,7 +14,7 @@ export * from './models/EmotionalState';
 
 // Trait management
 export { TraitManager } from './traits/TraitManager';
-export { TraitEvolution } from './traits/TraitEvolution';
+export { TraitEvolution, ExperienceType } from './traits/TraitEvolution';
 export { TraitInfluenceMapper } from './traits/TraitInfluenceMapper';
 export { TraitExpression } from './traits/TraitExpression';
 export { IdentityAnchorSystem } from './traits/IdentityAnchor';
