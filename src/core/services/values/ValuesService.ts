@@ -16,7 +16,7 @@ import { SuccessMetrics } from './tracking/SuccessMetrics';
 import { MemoryIntegrator } from './integration/MemoryIntegrator';
 import { PersonalityAdapter } from './integration/PersonalityAdapter';
 import { ConversationBridge } from './integration/ConversationBridge';
-import { ValuesServiceConfig, ValuesEvent, ValuesExport, CelebrationEvent, ReflectionPrompt, HabitFormation, Badge, Level } from './types';
+import { ValuesServiceConfig, ValuesEvent, ValuesExport, CelebrationEvent, ReflectionPrompt, HabitFormation, Badge, Level, CommitmentFrequency } from './types';
 
 /**
  * Comprehensive Values Service
