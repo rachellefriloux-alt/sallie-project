@@ -9,6 +9,10 @@ interface SentimentLexicon {
   word: string;
   sentiment: number; // -1 to 1
   emotions: Partial<SentimentScore['dimensions']>;
+  /**
+   * Strength or magnitude of the sentiment or emotion associated with the word.
+   * Expected range: 0 (no intensity) to 1 (maximum intensity).
+   */
   intensity: number;
 }
 
