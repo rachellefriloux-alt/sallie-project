@@ -4,7 +4,7 @@
  */
 
 export class PersonalityAdapter {
-  public adaptValuesToPers onality(values: string[], traits: Record<string, number>): {
+  public adaptValuesToPersonality(values: string[], traits: Record<string, number>): {
     recommendations: string[];
     conflicts: string[];
   } {

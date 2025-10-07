@@ -20,7 +20,7 @@ export class ProgressTracker {
       timestamp: new Date(),
       metric: 'progress',
       value: metrics.percentage,
-      metadata: metrics,
+      metadata: metrics as Record<string, unknown>,
     });
   }
 

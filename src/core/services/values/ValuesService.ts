@@ -160,21 +160,21 @@ export class ValuesService {
         id: 'prompt_daily_1',
         question: 'What action today best reflected your core values?',
         category: 'values',
-        frequency: 'daily' as const,
+        frequency: CommitmentFrequency.DAILY,
         lastAsked: null,
       },
       {
         id: 'prompt_weekly_1',
         question: 'Which goals made meaningful progress this week?',
         category: 'goals',
-        frequency: 'weekly' as const,
+        frequency: CommitmentFrequency.WEEKLY,
         lastAsked: null,
       },
       {
         id: 'prompt_monthly_1',
         question: 'How have your priorities shifted this month?',
         category: 'reflection',
-        frequency: 'monthly' as const,
+        frequency: CommitmentFrequency.MONTHLY,
         lastAsked: null,
       },
     ];
@@ -433,18 +433,20 @@ export class ValuesService {
    * ```
    */
   public exportData(): ValuesExport {
+    const exported = this.goalManager.export();
     return {
       version: '1.0.0',
       exportedAt: new Date(),
       userId: this.config.userId,
       values: this.valueManager.export(),
-      goals: this.goalManager.export().goals,
+      goals: exported.goals,
       commitments: this.accountabilityManager.export(),
       decisions: this.decisionSupport.export(),
       metadata: {
         gamificationLevel: this.gamificationLevel,
         celebrations: this.celebrations,
         habits: Array.from(this.habits.values()),
+        milestones: exported.milestones,
       },
     };
   }
@@ -462,7 +464,10 @@ export class ValuesService {
    */
   public importData(data: ValuesExport): void {
     this.valueManager.import(data.values as never[]);
-    this.goalManager.import(data.goals as never);
+    this.goalManager.import({
+      goals: data.goals as never[],
+      milestones: (data.metadata.milestones || []) as never[],
+    });
     this.accountabilityManager.import(data.commitments as never[]);
     this.decisionSupport.import(data.decisions as never[]);
     
@@ -472,6 +477,13 @@ export class ValuesService {
     
     if (data.metadata.celebrations) {
       this.celebrations = data.metadata.celebrations as CelebrationEvent[];
+    }
+    
+    if (data.metadata.habits) {
+      const habits = data.metadata.habits as HabitFormation[];
+      for (const habit of habits) {
+        this.habits.set(habit.habitId, habit);
+      }
     }
   }
 
