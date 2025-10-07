@@ -101,8 +101,8 @@ export class EntityExtractor {
     
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
-      // Check if word starts with capital letter (excluding sentence start)
-      if (/^[A-Z][a-z]+/.test(word) && (i > 0 || currentSequence.length > 0)) {
+      // Check if word starts with capital letter
+      if (/^[A-Z][a-z]+/.test(word)) {
         currentSequence.push(word);
       } else if (currentSequence.length > 0) {
         capitalizedSequences.push([...currentSequence]);
