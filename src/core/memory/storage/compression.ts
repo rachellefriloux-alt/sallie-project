@@ -74,7 +74,7 @@ export class CompressionService {
     // Basic semantic compression: remove redundant words, simplify structure
     let compressed = data
       .replace(/\s+/g, ' ')
-      .replace(/\b(the|a|an|and|or|but|in|on|at|to|for)\b/gi, '')
+      .replace(/\b(the|a|an|and|or|but|in|on|at|to|for)\b/gi, ' ')
       .replace(/,\s*/g, ',')
       .replace(/\.\s*/g, '.')
       .trim();
