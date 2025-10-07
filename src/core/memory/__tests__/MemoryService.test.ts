@@ -656,8 +656,14 @@ describe('MemoryService', () => {
         emotions: [EmotionType.JOY],
       });
 
-      // Note: Current implementation doesn't filter by emotions yet
+      // Assert that all returned memories have the specified emotion
       expect(result.memories).toBeDefined();
+      expect(result.memories.every(
+        (mem) =>
+          mem.metadata.primaryEmotion === EmotionType.JOY ||
+          (mem.metadata.secondaryEmotions &&
+            mem.metadata.secondaryEmotions.includes(EmotionType.JOY))
+      )).toBe(true);
     });
 
     it('should handle query with all parameters', async () => {
